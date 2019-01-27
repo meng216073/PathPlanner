@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{65390b0e-e2bc-4b9e-bc70-08742e6378d3}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>visualisation.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterId />
+    <Name>Path_planner_visualisation</Name>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="gps_plot.py" />
+    <Compile Include="visualisation.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="examples\ex_III_1_a_fig16.txt" />
+    <Content Include="examples\ex_III_1_b_fig18.txt" />
+    <Content Include="examples\ex_III_1_b_fig19.txt" />
+    <Content Include="examples\ex_III_1_c_fig21.txt" />
+    <Content Include="examples\ex_III_1_d_fig23.txt" />
+    <Content Include="examples\ex_III_2_a_fig24.txt" />
+    <Content Include="examples\ex_III_2_b_fig25.txt" />
+    <Content Include="examples\ex_III_2_b_fig26.txt" />
+    <Content Include="examples\ex_IV_3_fig36.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="examples" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+</Project>
