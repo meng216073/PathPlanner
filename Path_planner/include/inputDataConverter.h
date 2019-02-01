@@ -29,36 +29,36 @@ state toCartesianState(coordinates waypoint, coordinates center, double limitsX,
 {
 	double x = (center.longitude - waypoint.longitude) * (limitsX / 2) / (center.longitude - Xmax);
 	double y = (center.latitude -  waypoint.latitude) * (limitsY / 2) / (center.latitude - Ymax);
-	double z = meter2feet * waypoint.altitude;
+	//double z = feet2meter * waypoint.altitude;
 
-	return state{ x, y, 0, z};
+	return state{ x, y, 0 };
 }
 
 point toCartesianPoint(coordinates waypoint, coordinates center, double limitsX, double limitsY, double Xmax, double Ymax)
 {
 	double x = (center.longitude - waypoint.longitude) * (limitsX / 2) / (center.longitude - Xmax);
 	double y = (center.latitude - waypoint.latitude) * (limitsY / 2) / (center.latitude - Ymax);
-	double z = meter2feet * waypoint.altitude;
+	//double z = feet2meter * waypoint.altitude;
 
-	return point{ x, y, z };
+	return point{ x, y, 0 };
 }
 
 coordinates toCoordinates(state waypoint, coordinates center, double limitsX, double limitsY, double Xmax, double Ymax)
 {
 	double lon = center.longitude - (2 * waypoint.x * (center.longitude - Xmax))/ limitsX;
 	double lat = center.latitude - (2 * waypoint.y * (center.latitude - Ymax)) / limitsY;
-	double alt = feet2meter * waypoint.z;
+	//double alt = meter2feet * waypoint.z;
 
-	return coordinates{ lon, lat, alt };
+	return coordinates{ lon, lat, 0 };
 }
 
 coordinates toCoordinatesPoint(point waypoint, coordinates center, double limitsX, double limitsY, double Xmax, double Ymax)
 {
 	double lon = center.longitude - (2 * waypoint.x * (center.longitude - Xmax)) / limitsX;
 	double lat = center.latitude - (2 * waypoint.y * (center.latitude - Ymax)) / limitsY;
-	double alt = feet2meter * waypoint.z;
+	//double alt = meter2feet * waypoint.z;
 
-	return coordinates{ lon, lat, alt };
+	return coordinates{ lon, lat, 0 };
 }
 
 std::vector<point> vecPoint2vecCoord(const std::vector<coordinates>& vecCoord, coordinates center, double limitsX, double limitsY, double Xmax, double Ymax)

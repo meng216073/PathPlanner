@@ -71,130 +71,6 @@ void pathPlannerWaypoints()
 
 }
 
-void pathPlannerTEST()
-{
-	vector<coordinates> flyZones = {
-		{ -76.428055, 38.146111, 0 },{ -76.428611, 38.151388, 0 },{ -76.431388, 38.151666, 0 },{ -76.435277, 38.150555, 0 },{ -76.432222, 38.147500, 0 },
-	{ -76.432777, 38.144444, 0 },{ -76.434722, 38.143055, 0 },{ -76.432500, 38.140277, 0 },{ -76.425833, 38.140555, 0 },{ -76.421111, 38.143611, 0 },
-	{ -76.423055, 38.147222, 0 },{ -76.426388, 38.146111, 0 }
-	};
-
-	vector<coordinates> waypoints = {
-		{ -76.43, 38.15, 0 },{ -76.424, 38.144, 0 },{ -76.425833, 38.145555, 0 },{ -76.426388, 38.145277, 0 }
-	};
-
-	double Xmax = flyZones[0].longitude, Ymax = flyZones[0].latitude;
-	double index_Xmax = 0, index_Ymax = 0;
-	double Xmin = flyZones[0].longitude, Ymin = flyZones[0].latitude;
-	double index_Xmin = 0, index_Ymin = 0;
-
-	for (int i = 1; i < flyZones.size(); ++i)
-	{
-		if (flyZones[i].longitude > Xmax)
-		{
-			Xmax = flyZones[i].longitude;
-			index_Xmax = i;
-		}
-
-		if (flyZones[i].latitude > Ymax)
-		{
-			Ymax = flyZones[i].latitude;
-			index_Ymax = i;
-		}
-
-		if (flyZones[i].longitude < Xmin)
-		{
-			Xmin = flyZones[i].longitude;
-			index_Xmin = i;
-		}
-
-		if (flyZones[i].latitude < Ymin)
-		{
-			Ymin = flyZones[i].latitude;
-			index_Ymin = i;
-		}
-	}
-
-	cout.precision(8);
-	cout << flyZones[index_Xmax].longitude << " " << flyZones[index_Xmax].latitude << " Xmax " << Xmax << endl;
-	cout << flyZones[index_Ymax].longitude << " " << flyZones[index_Ymax].latitude << " Ymax " << Ymax << endl;
-	cout << flyZones[index_Xmin].longitude << " " << flyZones[index_Xmin].latitude << " Xmin " << Xmin << endl;
-	cout << flyZones[index_Ymin].longitude << " " << flyZones[index_Ymin].latitude << " Ymin " << Ymin << endl;
-
-
-	vector< vector<point> > obstaclesArray = {
-		{ { 5, 30 },{ -5, 30 },{ -10, 35 },{ -10, 40 },{ -5, 45 },{ 5, 45 },{ 10, 40 },{ 10, 35 } },
-	{ { 10, -5 },{ 20, -5 },{ 25, 0 },{ 25, 5 },{ 20, 10 },{ 10, 10 },{ 5, 5 },{ 5, 0 } },
-	{ { -20, -25 },{ -10, -25 },{ -5, -20 },{ -5, -15 },{ -10, -10 },{ -20, -10 },{ -25, -15 },{ -25, -20 } }
-	};
-
-	double limitsX = distanceEarth(flyZones[index_Xmin].latitude, flyZones[index_Xmin].longitude, flyZones[index_Xmax].latitude, flyZones[index_Xmax].longitude);
-	double limitsY = distanceEarth(flyZones[index_Ymin].latitude, flyZones[index_Ymin].longitude, flyZones[index_Ymax].latitude, flyZones[index_Ymax].longitude);
-
-	coordinates center = { (Xmax + Xmin) / 2, (Ymax + Ymin) / 2, 0 };
-	cout << "center : " << center.longitude << " " << center.latitude << endl;
-
-	coordinates start = { waypoints[0].longitude, waypoints[0].latitude };
-	coordinates goal = { waypoints[1].longitude, waypoints[1].latitude };
-	//cout << start.longitude << " " << start.latitude << endl;
-	cout << goal.longitude << " " << goal.latitude << endl;
-
-	cout << "X : " << flyZones[index_Xmax].longitude << " " << center.latitude << endl;
-
-	double startStateLon = (abs(center.longitude) - abs(waypoints[0].longitude)) * (limitsX / 2) / (abs(center.longitude) - abs(Xmax));
-	double startStateLat = (abs(center.latitude) - abs(waypoints[0].latitude)) * (limitsY / 2) / (abs(center.latitude) - abs(Ymax));
-
-	state startState = { startStateLon, startStateLat, 0 };
-	cout << startState.x << endl;
-	cout << startState.y << endl;
-
-	double goalStateLon = (abs(center.longitude) - abs(waypoints[1].longitude)) * (limitsX / 2) / (abs(center.longitude) - abs(Xmax));
-	double goalStateLat = (abs(center.latitude) - abs(waypoints[1].latitude)) * (limitsY / 2) / (abs(center.latitude) - abs(Ymax));
-
-	state goalState = { goalStateLon, goalStateLat, 0 };
-	cout << goalState.x << endl;
-	cout << goalState.y << endl;
-
-	double resolution = 3;
-	double safetyDist = 4;
-
-	cout << limitsX << " " << limitsY << endl;
-
-	try
-	{
-		PathPlanner<HybridAlgorithm> pathPlanner(startState, goalState, obstaclesArray, limitsX, limitsY, resolution, safetyDist);
-		pathPlanner.setSearchAlgorithm("AStarHybrid");
-		//pathPlanner.setSearchAlgorithmHeuristic(grid::EUCLIDEAN);
-
-		pathPlanner.getSearchAlgorithm().setVelocity(0.1);
-		pathPlanner.getSearchAlgorithm().setAngularVelocity(0.1);
-		//pathPlanner.getSearchAlgorithm().setDubinsTurnRadius(0.9);
-		//pathPlanner.getSearchAlgorithm().doNotUseDubins();
-
-		if (pathPlanner.makePlan() == planner::ERR_OK)
-		{
-			if (pathPlanner.getPathResult() == hybridAlgo::FOUND)
-			{
-				cout << ":)" << endl;
-			}
-			else if (pathPlanner.getPathResult() == hybridAlgo::NOT_FOUND)
-			{
-				cout << ":(" << endl;
-			}
-			else if (pathPlanner.getPathResult() == hybridAlgo::DUBINS_CLOSE)
-			{
-				cout << ":/" << endl;
-			}
-
-			deque<state> path = pathPlanner.getPath();
-		}
-	}
-	catch (string e)
-	{
-		//cout << e << endl;
-	}
-}
-
 void pathPlannerWaypointsNEW()
 {
 	vector<coordinates> flyZones = {
@@ -204,7 +80,7 @@ void pathPlannerWaypointsNEW()
 	};
 
 	vector<coordinates> waypoints = {
-		{ -76.4303750, 38.1508847, 100 }, { -76.4328839, 38.1496530, 200 }, { -76.4257010, 38.1423795, 400 }, { -76.4226473, 38.1438963, 350 }, { -76.4240670, 38.1457923, 200 }, { -76.4288839, 38.1440126, 100 }
+		{ -76.4303750, 38.1508847, 0 }, { -76.4328839, 38.1496530, 0 }, { -76.4257010, 38.1423795, 0 }, { -76.4226473, 38.1438963, 0 }, { -76.4240670, 38.1457923, 0 }, { -76.4288839, 38.1440126, 0 }
 	};
 
 	vector<coordinatesObst> obstacles = {
@@ -277,10 +153,6 @@ void pathPlannerWaypointsNEW()
 	{
 		cout << startStates[i].x << " " << startStates[i].y << " **** " << goalStates[i].x << " " << goalStates[i].y << endl;
 	}
-	
-	coordinates cylinder = coordinates{ obstacles[0].longitude, obstacles[0].latitude };
-	point test = toCartesianPoint(cylinder, center, limitsX, limitsY, Xmax, Ymax);
-	cout << " *** " << test.x << " " << test.y << " " << test.z << endl;
 
 	// OBSTACLE TO POLYGON TEST
 	ofstream obstacleGpsFile(OBSTACLES_GPS_FILE, std::ios_base::app);
@@ -292,7 +164,7 @@ void pathPlannerWaypointsNEW()
 
 		for (int i = 0; i < obstacle2Polygon.size(); ++i)
 		{
-			obstacleGpsFile << obstacle2Polygon[i].latitude << "," << obstacle2Polygon[i].longitude << endl;
+			obstacleGpsFile << obstacle2Polygon[i].longitude << "," << obstacle2Polygon[i].latitude << endl;
 		}
 
 		vector<point> newObstaclePolygon = vecPoint2vecCoord(obstacle2Polygon, center, limitsX, limitsY, Xmax, Ymax);
@@ -401,19 +273,18 @@ void pathPlannerWaypointsNEW()
 	}*/
 
 	double resolution = 4;
-	double safetyDist = 5;
+	double safetyDist = 4;
 
-	// Bearing
 	for (int i = 0; i < startStates.size(); ++i)
 		computeAngle2Points(startStates[i], goalStates[i]);
 
 	// Next path planners
-	//for (int i = 0; i < startStates.size(); ++i)
-	for (int i = 0; i < 1; ++i)
+	for (int i = 0; i < startStates.size(); ++i)
 	{
 		try
 		{
 			PathPlanner<HybridAlgorithm> pathPlanner(startStates[i], goalStates[i], obstaclesArray, limitsX, limitsY, resolution, safetyDist);
+			//pathPlanner.loadObstacles(obstaclesArray);
 
 			pathPlanner.setSearchAlgorithm("AStarHybrid");
 			//pathPlanner.setSearchAlgorithmHeuristic(grid::MANHATTAN);
@@ -444,7 +315,7 @@ void pathPlannerWaypointsNEW()
 				for (int i = 0; i < path.size(); ++i)
 				{
 					coordinates coord = toCoordinates(path[i], center, limitsX, limitsY, Xmax, Ymax);
-					waypointsGpsFile << coord.latitude << "," << coord.longitude << endl;
+					waypointsGpsFile << coord.longitude << "," << coord.latitude << endl;
 				}
 			}
 		}
@@ -455,6 +326,129 @@ void pathPlannerWaypointsNEW()
 	}
 }
 
+void pathPlannerTEST()
+{
+	vector<coordinates> flyZones = {
+		{ -76.428055, 38.146111, 0 }, { -76.428611, 38.151388, 0 }, { -76.431388, 38.151666, 0 }, { -76.435277, 38.150555, 0 }, { -76.432222, 38.147500, 0 },
+		{ -76.432777, 38.144444, 0 }, { -76.434722, 38.143055, 0 }, { -76.432500, 38.140277, 0 }, { -76.425833, 38.140555, 0 }, { -76.421111, 38.143611, 0 },
+		{ -76.423055, 38.147222, 0 }, { -76.426388, 38.146111, 0 }
+	};
+
+	vector<coordinates> waypoints = {
+		{ -76.43, 38.15, 0 }, { -76.424, 38.144, 0 }, { -76.425833, 38.145555, 0 }, { -76.426388, 38.145277, 0 }
+	};
+
+	double Xmax = flyZones[0].longitude, Ymax = flyZones[0].latitude;
+	double index_Xmax = 0, index_Ymax = 0;
+	double Xmin = flyZones[0].longitude, Ymin = flyZones[0].latitude;
+	double index_Xmin = 0, index_Ymin = 0;
+	
+	for (int i = 1; i < flyZones.size(); ++i)
+	{
+		if (flyZones[i].longitude > Xmax)
+		{
+			Xmax = flyZones[i].longitude;
+			index_Xmax = i;
+		}
+
+		if (flyZones[i].latitude > Ymax)
+		{
+			Ymax = flyZones[i].latitude;
+			index_Ymax = i;
+		}
+
+		if (flyZones[i].longitude < Xmin)
+		{
+			Xmin = flyZones[i].longitude;
+			index_Xmin = i;
+		}
+		
+		if (flyZones[i].latitude < Ymin)
+		{
+			Ymin = flyZones[i].latitude;
+			index_Ymin = i;
+		}
+	}
+
+	cout.precision(8);
+	cout << flyZones[index_Xmax].longitude << " " << flyZones[index_Xmax].latitude << " Xmax " << Xmax << endl;
+	cout << flyZones[index_Ymax].longitude << " " << flyZones[index_Ymax].latitude << " Ymax " << Ymax << endl;
+	cout << flyZones[index_Xmin].longitude << " " << flyZones[index_Xmin].latitude << " Xmin " << Xmin << endl;
+	cout << flyZones[index_Ymin].longitude << " " << flyZones[index_Ymin].latitude << " Ymin " << Ymin << endl;
+
+
+	vector< vector<point> > obstaclesArray = {
+	{ { 5, 30 },{ -5, 30 },{ -10, 35 },{ -10, 40 },{ -5, 45 },{ 5, 45 },{ 10, 40 },{ 10, 35 } },
+	{ { 10, -5 },{ 20, -5 },{ 25, 0 },{ 25, 5 },{ 20, 10 },{ 10, 10 },{ 5, 5 },{ 5, 0 } },
+	{ { -20, -25 },{ -10, -25 },{ -5, -20 },{ -5, -15 },{ -10, -10 },{ -20, -10 },{ -25, -15 },{ -25, -20 } }
+	};
+
+	double limitsX = distanceEarth(flyZones[index_Xmin].latitude, flyZones[index_Xmin].longitude, flyZones[index_Xmax].latitude, flyZones[index_Xmax].longitude);
+	double limitsY = distanceEarth(flyZones[index_Ymin].latitude, flyZones[index_Ymin].longitude, flyZones[index_Ymax].latitude, flyZones[index_Ymax].longitude);
+	
+	coordinates center = { (Xmax + Xmin) / 2, (Ymax + Ymin) / 2, 0 };
+	cout << "center : " << center.longitude << " " << center.latitude << endl;
+
+	coordinates start = { waypoints[0].longitude, waypoints[0].latitude };
+	coordinates goal = { waypoints[1].longitude, waypoints[1].latitude };
+	//cout << start.longitude << " " << start.latitude << endl;
+	cout << goal.longitude << " " << goal.latitude << endl;
+	
+	cout << "X : " << flyZones[index_Xmax].longitude << " " << center.latitude << endl;
+
+	double startStateLon = (abs(center.longitude) - abs(waypoints[0].longitude)) * (limitsX / 2) / (abs(center.longitude) - abs(Xmax));
+	double startStateLat = (abs(center.latitude) - abs(waypoints[0].latitude)) * (limitsY / 2) / (abs(center.latitude) - abs(Ymax));
+
+	state startState = { startStateLon, startStateLat, 0 };
+	cout << startState.x << endl;
+	cout << startState.y << endl;
+
+	double goalStateLon = (abs(center.longitude) - abs(waypoints[1].longitude)) * (limitsX / 2) / (abs(center.longitude) - abs(Xmax));
+	double goalStateLat = (abs(center.latitude) - abs(waypoints[1].latitude)) * (limitsY / 2) / (abs(center.latitude) - abs(Ymax));
+
+	state goalState = { goalStateLon, goalStateLat, 0 };
+	cout << goalState.x << endl;
+	cout << goalState.y << endl;
+
+	double resolution = 3;
+	double safetyDist = 4;
+
+	cout << limitsX << " " << limitsY << endl;
+
+  try
+  {
+    PathPlanner<HybridAlgorithm> pathPlanner(startState, goalState, obstaclesArray, limitsX, limitsY, resolution, safetyDist);
+    pathPlanner.setSearchAlgorithm("AStarHybrid");
+    //pathPlanner.setSearchAlgorithmHeuristic(grid::EUCLIDEAN);
+
+	pathPlanner.getSearchAlgorithm().setVelocity(0.1);
+	pathPlanner.getSearchAlgorithm().setAngularVelocity(0.1);
+	//pathPlanner.getSearchAlgorithm().setDubinsTurnRadius(0.9);
+	//pathPlanner.getSearchAlgorithm().doNotUseDubins();
+
+    if(pathPlanner.makePlan() == planner::ERR_OK)
+    {
+      if(pathPlanner.getPathResult() == hybridAlgo::FOUND)
+      {
+        cout << ":)" << endl;
+      }
+      else if(pathPlanner.getPathResult() == hybridAlgo::NOT_FOUND)
+      {
+        cout << ":(" << endl;
+      }
+      else if(pathPlanner.getPathResult() == hybridAlgo::DUBINS_CLOSE)
+      {
+        cout << ":/" << endl;
+      }
+
+      deque<state> path = pathPlanner.getPath();
+    }
+  }
+  catch(string e)
+  {
+    //cout << e << endl;
+  }
+}
 
 int main()
 {

@@ -17,6 +17,7 @@ using namespace planner;
 high_resolution_clock::time_point t1, t2;
 
 
+
 // Algorithm families
 template class PathPlanner<HybridAlgorithm>;
 template class PathPlanner<BasicAlgorithm>;
@@ -335,6 +336,8 @@ int PathPlanner<T>::makePlan()
     return ERR_ALGO;
   }
 
+  cout << searchGrid->getStartNode()->y() << endl;
+
   const Node* nodePath = searchAlgorithm->launchSearch(*searchGrid);
 
   /*cout << nodePath->pos() << endl;
@@ -360,8 +363,6 @@ int PathPlanner<T>::makePlan()
   finalPath = smoother->getPathFromGoalNode(nodePath);
   finalPath = smoother->smooth(finalPath);
 
-  setWaypointsAltitude(finalPath);
-
   // Delete path
   deletePath(nodePath);
 
@@ -374,26 +375,6 @@ int PathPlanner<T>::makePlan()
   saveOutputs(execTime);
 
   return ERR_OK;
-}
-
-template <class T>
-void PathPlanner<T>::setWaypointsAltitude(std::deque<state>& path)
-{
-	double startAlt = searchGrid->getStartState().z;
-	double goalAlt = searchGrid->getGoalState().z;
-
-	double diff = abs(goalAlt - startAlt);
-	double deltaAlt = diff / path.size();
-
-	path[0].z = startAlt;
-
-	for (int i = 1; i < path.size(); ++i)
-	{
-		if (startAlt < goalAlt)
-			path[i].z = path[i - 1].z + deltaAlt;
-		else
-			path[i].z = path[i - 1].z - deltaAlt;
-	}
 }
 
 template <class T>
@@ -477,14 +458,12 @@ void PathPlanner<T>::saveOutputs(double execTime)
   waypointsFile << finalPath.size() << endl;
   waypointsFile << execTime << endl;
 
-  waypointsFile << searchGrid->getStartState().x << "," << searchGrid->getStartState().y << "," << searchGrid->getStartState().theta << "," << searchGrid->getStartState().z << endl;
-
-  for(deque<state>::iterator it = finalPath.begin() + 1; it != finalPath.end(); ++it)
+  for(deque<state>::iterator it = finalPath.begin(); it != finalPath.end(); ++it)
   {
-    waypointsFile << it->x << "," << it->y << "," << it->theta << "," << it->z << endl;
+    waypointsFile << it->x << "," << it->y << "," << it->theta << endl;
   }
 
-  waypointsFile << searchGrid->getGoalState().x << "," << searchGrid->getGoalState().y << "," << searchGrid->getGoalState().theta << "," << searchGrid->getGoalState().z << endl;
+  waypointsFile << searchGrid->getGoalState().x << "," << searchGrid->getGoalState().y << "," << searchGrid->getGoalState().theta << endl;
 
   vector< vector<point> > obstaclesVertices = this->getObstaclesVertices();
   for(int i = 0; i < obstaclesVertices.size(); ++i)

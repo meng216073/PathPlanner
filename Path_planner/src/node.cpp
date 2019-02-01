@@ -7,7 +7,7 @@
 #include "util.h"
 
 
-Node::Node() : mX(0), mY(0), mTheta(0), mZ(0), mCostSoFar(0), mCostToCome(0), mIsEvaluated(false), mPred(nullptr), mPos(0)
+Node::Node() : mX(0), mY(0), mTheta(0), mCostSoFar(0), mCostToCome(0), mIsEvaluated(false), mPred(nullptr), mPos(0)
 {
 
 }
@@ -19,11 +19,6 @@ Node::Node(const state& st) : mX(st.x), mY(st.y), mTheta(st.theta), mCostSoFar(0
 
 
 Node::Node(double x, double y, double theta) : mX(x), mY(y), mTheta(theta), mCostSoFar(0), mCostToCome(0), mIsEvaluated(false), mPred(nullptr), mPos(0)
-{
-
-}
-
-Node::Node(double x, double y, double theta, double z) : mX(x), mY(y), mTheta(theta), mZ(z), mCostSoFar(0), mCostToCome(0), mIsEvaluated(false), mPred(nullptr), mPos(0)
 {
 
 }

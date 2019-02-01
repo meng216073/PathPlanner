@@ -83,7 +83,7 @@
     <ClInclude Include="include\Vec2.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="include\inputDataConverter.h">
+    <ClInclude Include="inputDataConverter.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

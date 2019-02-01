@@ -90,9 +90,6 @@ public:
   int makePlan();
   int makeNextPlan(const state& startState, const state& goalState);
 
-  // Compute altitude
-  void setWaypointsAltitude(std::deque<state>& path);
-
   // Return the final smoothed path
   const std::deque<state> getPath() const { return finalPath; }
 
