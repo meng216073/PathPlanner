@@ -41,12 +41,12 @@ with open('../Path_planner/outputs/waypoints_gps.csv', 'r') as waypointsF:
     i = 0
     reader = csv.reader(waypointsF, delimiter=',')
     for row in reader:
-        if(i % 3 == 0):
-            coord.append((float(row[1]), float(row[0])))
-        i = i + 1
+        #if(i % 3 == 0):
+        coord.append((float(row[0]), float(row[1])))
+        #i = i + 1
 
 top_attraction_lats, top_attraction_lons = zip(*coord)
-gmap.scatter(top_attraction_lats, top_attraction_lons, '#008000	', size=4, marker=False)
+gmap.scatter(top_attraction_lats, top_attraction_lons, '#008000	', size=2, marker=False)
 
 open('../Path_planner/outputs/waypoints_gps.csv', 'w').close()
 
@@ -55,9 +55,9 @@ with open('../Path_planner/outputs/obstacles_gps.csv', 'r') as obstaclesF:
     i = 0
     reader = csv.reader(obstaclesF, delimiter=',')
     for row in reader:
-        if(i % 3 == 0):
-            coord.append((float(row[1]), float(row[0])))
-        i = i + 1
+        #if(i % 3 == 0):
+        coord.append((float(row[0]), float(row[1])))
+        #i = i + 1
 
 top_attraction_lats, top_attraction_lons = zip(*coord)
 gmap.scatter(top_attraction_lats, top_attraction_lons, '#ff0000	', size=4, marker=False)

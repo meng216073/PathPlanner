@@ -1,0 +1,16 @@
+﻿  main.cpp
+c:\users\rafik\documents\github\pathplanner\path_planner\include\dubinspath.h(15): warning C4244: 'initializing': conversion from 'double' to 'unsigned int', possible loss of data
+c:\users\rafik\documents\github\pathplanner\path_planner\main.cpp(119): warning C4244: 'argument': conversion from 'double' to 'const unsigned __int64', possible loss of data
+c:\users\rafik\documents\github\pathplanner\path_planner\main.cpp(120): warning C4244: 'argument': conversion from 'double' to 'const unsigned __int64', possible loss of data
+c:\users\rafik\documents\github\pathplanner\path_planner\main.cpp(121): warning C4244: 'argument': conversion from 'double' to 'const unsigned __int64', possible loss of data
+c:\users\rafik\documents\github\pathplanner\path_planner\main.cpp(122): warning C4244: 'argument': conversion from 'double' to 'const unsigned __int64', possible loss of data
+c:\users\rafik\documents\github\pathplanner\path_planner\main.cpp(131): warning C4244: 'argument': conversion from 'double' to 'const unsigned __int64', possible loss of data
+c:\users\rafik\documents\github\pathplanner\path_planner\main.cpp(132): warning C4244: 'argument': conversion from 'double' to 'const unsigned __int64', possible loss of data
+c:\users\rafik\documents\github\pathplanner\path_planner\main.cpp(142): warning C4244: 'argument': conversion from 'double' to 'const unsigned __int64', possible loss of data
+c:\users\rafik\documents\github\pathplanner\path_planner\main.cpp(249): warning C4244: 'argument': conversion from 'double' to 'const unsigned __int64', possible loss of data
+c:\users\rafik\documents\github\pathplanner\path_planner\main.cpp(250): warning C4244: 'argument': conversion from 'double' to 'const unsigned __int64', possible loss of data
+c:\users\rafik\documents\github\pathplanner\path_planner\main.cpp(251): warning C4244: 'argument': conversion from 'double' to 'const unsigned __int64', possible loss of data
+c:\users\rafik\documents\github\pathplanner\path_planner\main.cpp(252): warning C4244: 'argument': conversion from 'double' to 'const unsigned __int64', possible loss of data
+c:\users\rafik\documents\github\pathplanner\path_planner\main.cpp(254): warning C4244: 'argument': conversion from 'double' to 'const unsigned __int64', possible loss of data
+c:\users\rafik\documents\github\pathplanner\path_planner\main.cpp(255): warning C4244: 'argument': conversion from 'double' to 'const unsigned __int64', possible loss of data
+  Path_planner.vcxproj -> C:\Users\Rafik\Documents\GitHub\PathPlanner\x64\Debug\Path_planner.exe

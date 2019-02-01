@@ -12,7 +12,7 @@ using namespace std;
 using namespace grid;
 
 SearchGrid::SearchGrid(const state& IstartState, const state& IgoalState, std::pair<double,double> IgridLimitsX, std::pair<double,double> IgridLimitsY, double Iresolution)
-: startNode(new Node(IstartState.x, IstartState.y, IstartState.theta)), goalNode(new Node(IgoalState.x, IgoalState.y, IgoalState.theta)),
+: startNode(new Node(IstartState.x, IstartState.y, IstartState.theta, IstartState.z)), goalNode(new Node(IgoalState.x, IgoalState.y, IgoalState.theta, IgoalState.z)),
   gridLimitsX(IgridLimitsX), gridLimitsY(IgridLimitsY), resolution(Iresolution)
 {
   nbCols = ((gridLimitsX.second - gridLimitsX.first) / resolution) + 1;

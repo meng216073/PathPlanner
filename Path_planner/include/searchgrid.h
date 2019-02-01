@@ -113,8 +113,8 @@ public:
   // Getters
   const Node* getStartNode() const { return startNode; }
   const Node* getGoalNode() const { return goalNode; }
-  const state getStartState() const { return state{ startNode->x(), startNode->y(), startNode->theta() }; }
-  const state getGoalState() const { return state{ goalNode->x(), goalNode->y(), goalNode->theta() }; }
+  const state getStartState() const { return state{ startNode->x(), startNode->y(), startNode->theta(), startNode->z() }; }
+  const state getGoalState() const { return state{ goalNode->x(), goalNode->y(), goalNode->theta(), goalNode->z() }; }
   std::pair<double,double> getGridLimitsX() const { return gridLimitsX; }
   std::pair<double,double> getGridLimitsY() const { return gridLimitsY; }
   double getResolution() const { return resolution; }

@@ -140,6 +140,7 @@
     <ClInclude Include="include\basicalgorithm.h" />
     <ClInclude Include="include\dubinspath.h" />
     <ClInclude Include="include\hybridalgorithm.h" />
+    <ClInclude Include="include\inputDataConverter.h" />
     <ClInclude Include="include\node.h" />
     <ClInclude Include="include\pathplanner.h" />
     <ClInclude Include="include\searchalgorithm.h" />
@@ -147,7 +148,6 @@
     <ClInclude Include="include\smoother.h" />
     <ClInclude Include="include\util.h" />
     <ClInclude Include="include\Vec2.h" />
-    <ClInclude Include="inputDataConverter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

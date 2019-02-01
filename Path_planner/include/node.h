@@ -8,6 +8,7 @@ typedef struct {
   double x;
   double y;
   double theta;
+  double z;
 } state;
 
 class Node {
@@ -17,6 +18,7 @@ private:
   double mX;
   double mY;
   double mTheta;
+  double mZ;
   double mCostSoFar; // g
   double mCostToCome; // h
   bool mIsEvaluated;
@@ -28,12 +30,14 @@ public:
   Node();
   Node(const state& st);
   Node(double x, double y, double theta);
+  Node(double x, double y, double theta, double z);
   Node(double x, double y, double theta, double costSoFar, double costToCome, const Node* pred);
 
   // Getters
   double x() const { return mX; }
   double y() const { return mY; }
   double theta() const { return mTheta; }
+  double z() const { return mZ; }
   double costSoFar() const { return mCostSoFar; }
   double costToCome() const { return mCostToCome; }
   double totalCost() const { return mCostSoFar + mCostToCome; }
