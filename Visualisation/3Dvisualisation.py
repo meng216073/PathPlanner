@@ -84,44 +84,6 @@ for i in range(1, len(x) - 1, 1):
 lengthX = len(x) - 1
 
 
-'''
-# Obstacles
-vertices = []
-patchesObst = []
-patchesObstExtended = []
-j = 1
-
-
-with open('../Path_planner/outputs/obstacles.csv', 'r') as obstaclesF:
-    reader = csv.reader(obstaclesF, delimiter=',')
-    for row in reader:
-        lenRow = range(len(row))
-        for i in lenRow:
-            if (i % 2 == 0):
-                vertices.append((row[i], row[i+1]))
-
-        if(j % 2 == 0):
-            polygon = Polygon(vertices, True)
-            patchesObstExtended.append(polygon)
-        else:
-            polygon = Polygon(vertices, True)
-            patchesObst.append(polygon)
-
-        del vertices[:]
-        j = j + 1
-
-ax = plt.subplot()
-p = PatchCollection(patchesObst)
-ax.add_collection(p)
-
-color_edge = [1, 0, 0]
-color_interior = [1, 1, 1]
-p = PatchCollection(patchesObstExtended, alpha=0.5)
-p.set_color(color_interior)
-p.set_edgecolor(color_edge)
-ax.add_collection(p)
-'''
-
 
 
 # Map limits + resolution
@@ -149,37 +111,10 @@ ax.set_aspect(1)
 
 
 # Obstacles
-Xc,Yc,Zc = data_for_cylinder_along_z(-274, 480, 30.48, 122)
-ax.plot_surface(Xc, Yc, Zc, color='red', alpha=1)
+with open('../Path_planner/outputs/obstacles_cartesian.csv', 'r') as obstaclesF:
+    reader = csv.reader(obstaclesF, delimiter=',')
+    for row in reader:
+        Xc,Yc,Zc = data_for_cylinder_along_z(float(row[0]), float(row[1]), float(row[3]), float(row[2]))
+        ax.plot_surface(Xc, Yc, Zc, color='red', alpha=1)
 
 plt.show()
-
-'''
-open('../Path_planner/outputs/waypoints.csv', 'w').close()
-open('../Path_planner/outputs/obstacles.csv', 'w').close()
-open('../Path_planner/outputs/map.csv', 'w').close()
-'''
-
-'''
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-
-x =[1,2,3,4,5,6,7,8,9,10]
-y =[5,6,2,3,13,4,1,2,4,8]
-z =[2,3,3,3,5,7,9,11,9,700]
-
-ax.scatter(x, y, z, c='r', marker='o')
-
-ax.set_xlabel('X Label')
-ax.set_ylabel('Y Label')
-ax.set_zlabel('Z Label')
-ax.set_xlim(*xrange)
-ax.set_ylim(*yrange)
-
-# TBC !!
-zrange = 750
-ax.set_zlim(zrange)
-
-
-plt.show()
-'''
