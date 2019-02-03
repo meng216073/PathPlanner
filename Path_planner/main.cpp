@@ -278,9 +278,18 @@ void pathPlannerWaypointsNEW()
 		cout << startStates[i].x << " " << startStates[i].y << " **** " << goalStates[i].x << " " << goalStates[i].y << endl;
 	}
 	
-	coordinates cylinder = coordinates{ obstacles[0].longitude, obstacles[0].latitude };
-	point test = toCartesianPoint(cylinder, center, limitsX, limitsY, Xmax, Ymax);
-	cout << " *** " << test.x << " " << test.y << " " << test.z << endl;
+
+	// SAVE OBSTACLES IN FILE
+	ofstream obstacleCartesianFile(OBSTACLES_CARTESIAN_FILE, std::ios_base::app);
+
+	for (int i = 0; i < obstacles.size(); ++i)
+	{
+		coordinates cylinder = coordinates{ obstacles[i].longitude, obstacles[i].latitude, obstacles[i].height };
+		point point = toCartesianPoint(cylinder, center, limitsX, limitsY, Xmax, Ymax);
+		double radius = feet2met(obstacles[i].radius);
+
+		obstacleCartesianFile << point.x << "," << point.y << "," << point.z << "," << radius << endl;
+	}
 
 	// OBSTACLE TO POLYGON TEST
 	ofstream obstacleGpsFile(OBSTACLES_GPS_FILE, std::ios_base::app);
@@ -408,8 +417,7 @@ void pathPlannerWaypointsNEW()
 		computeAngle2Points(startStates[i], goalStates[i]);
 
 	// Next path planners
-	//for (int i = 0; i < startStates.size(); ++i)
-	for (int i = 0; i < 1; ++i)
+	for (int i = 0; i < startStates.size(); ++i)
 	{
 		try
 		{
