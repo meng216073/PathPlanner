@@ -5,6 +5,7 @@
 #include <cmath>
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 
 #include "pathplanner.h"
 #include "algorithmfactory.h"
@@ -360,6 +361,10 @@ int PathPlanner<T>::makePlan()
   finalPath = smoother->getPathFromGoalNode(nodePath);
   finalPath = smoother->smooth(finalPath);
 
+  // Reduce nb waypoints
+  reduceNbWaypoints(finalPath);
+
+  // Set altitude
   setWaypointsAltitude(finalPath);
 
   // Delete path
@@ -374,26 +379,6 @@ int PathPlanner<T>::makePlan()
   saveOutputs(execTime);
 
   return ERR_OK;
-}
-
-template <class T>
-void PathPlanner<T>::setWaypointsAltitude(std::deque<state>& path)
-{
-	double startAlt = searchGrid->getStartState().z;
-	double goalAlt = searchGrid->getGoalState().z;
-
-	double diff = abs(goalAlt - startAlt);
-	double deltaAlt = diff / path.size();
-
-	path[0].z = startAlt;
-
-	for (int i = 1; i < path.size(); ++i)
-	{
-		if (startAlt < goalAlt)
-			path[i].z = path[i - 1].z + deltaAlt;
-		else
-			path[i].z = path[i - 1].z - deltaAlt;
-	}
 }
 
 template <class T>
@@ -438,6 +423,91 @@ int PathPlanner<T>::makeNextPlan(const state& startState, const state& goalState
 	saveOutputs(execTime);
 
 	return ERR_OK;
+}
+
+template <class T>
+void PathPlanner<T>::setWaypointsAltitude(std::deque<state>& path) const
+{
+	double startAlt = searchGrid->getStartState().z;
+	double goalAlt = searchGrid->getGoalState().z;
+
+	double diff = abs(goalAlt - startAlt);
+	double deltaAlt = diff / path.size();
+
+	path[0].z = startAlt;
+
+	for (int i = 1; i < path.size(); ++i)
+	{
+		if (startAlt < goalAlt)
+			path[i].z = path[i - 1].z + deltaAlt;
+		else
+			path[i].z = path[i - 1].z - deltaAlt;
+	}
+}
+
+// MUST BE REVIEWED
+template <class T>
+void PathPlanner<T>::reduceNbWaypoints(std::deque<state>& path) const
+{
+	state startState = searchGrid->getStartState();
+	state goalState = searchGrid->getGoalState();
+
+	double a = (goalState.y - startState.y) / (goalState.x - startState.x);
+	double b = startState.y - a * startState.x;
+	
+	double distanceX = abs(goalState.x - startState.x);
+	double minCoord = std::min(startState.x, goalState.x);
+
+	std::deque<state> line, newPath = path;
+
+	for (int i = 0; i <= distanceX; ++i)
+	{
+		line.push_back({ minCoord + i , a * (minCoord + i) + b, path[0].theta, 0 });
+	}
+
+	bool collision = false;
+	int nb = 0;
+
+	while (!collision)
+	{
+		collision = searchGrid->checkCollision(line);
+
+		// If there is a collision
+		if (!collision)
+		{
+			nb++;
+
+			newPath.pop_front();
+			newPath.pop_back();
+
+			line.clear();
+
+			double a = (newPath.front().y - newPath.back().y) / (newPath.front().x - newPath.back().x);
+			double b = newPath.back().y - a * newPath.back().x;
+
+			double distanceX = abs(newPath.front().x - newPath.back().x);
+			double minCoord = std::min(newPath.back().x, newPath.front().x);
+
+			//cout << distanceX << endl;
+			//cout << nb << endl;
+
+			cout << newPath.front().x << "  " << newPath.back().x << endl;
+
+			for (int i = 0; i <= distanceX; ++i)
+			{
+				line.push_back({ minCoord + i , a * (minCoord + i) + b, newPath[0].theta, 0 });
+			}
+		}
+		else // No collision
+		{
+			/*for (int i = nb; i < path.size(); ++i)
+			{
+				path.erase(path.begin() + i);
+				path.erase(path.begin() + path.size() - 1 - i);
+			}*/
+		}
+	}
+
 }
 
 template <class T>

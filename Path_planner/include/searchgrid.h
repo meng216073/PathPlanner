@@ -6,6 +6,7 @@
 #define SEARCHGRID_H
 
 #include <vector>
+#include <deque>
 #include "node.h"
 
 namespace grid {
@@ -155,6 +156,9 @@ public:
 
   // Check if the node is reachable
   bool isNodeTraversable(const Node& node) const;
+
+  // Check collision between line and obstacle
+  bool checkCollision(std::deque<state> line) const;
 
   // Check if the goal is reachable from a given node
   bool isGoalClose(const Node& node, double triggerDistance) const;

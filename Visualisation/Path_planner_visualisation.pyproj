@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{65390b0e-e2bc-4b9e-bc70-08742e6378d3}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>3Dvisualisation.py</StartupFile>
+    <StartupFile>visualisation.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -20,6 +20,7 @@
     <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="3Dvisualisation2.py" />
     <Compile Include="gps_plot.py" />
     <Compile Include="3Dvisualisation.py" />
     <Compile Include="visualisation.py" />

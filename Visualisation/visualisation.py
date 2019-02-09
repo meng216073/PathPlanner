@@ -92,6 +92,7 @@ with open('../Path_planner/outputs/obstacles.csv', 'r') as obstaclesF:
         del vertices[:]
         j = j + 1
 
+
 ax = plt.subplot()
 p = PatchCollection(patchesObst)
 ax.add_collection(p)
@@ -102,6 +103,7 @@ p = PatchCollection(patchesObstExtended, alpha=0.5)
 p.set_color(color_interior)
 p.set_edgecolor(color_edge)
 ax.add_collection(p)
+
 
 ################### Fly zone UAS => TBD
 pointsX = [14.323, -42.969, -329.12, -729.854, -415.058, -472.247, -672.665, -443.704, 243.285, 729.854, 529.539, 186.096]

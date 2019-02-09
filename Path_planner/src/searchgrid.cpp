@@ -564,6 +564,29 @@ bool SearchGrid::isNodeTraversable(const Node& node) const
   return false;
 }
 
+bool SearchGrid::checkCollision(std::deque<state> line) const
+{
+	for (int k = 0; k < line.size(); ++k)
+	{
+		point pt = { line[k].x, line[k].y, line[k].z };
+		int currentIndex = convertPoint2Indx(pt);
+		if (currentIndex == ERR_INDX)
+		{
+			return false;
+		}
+
+		int j = currentIndex / nbRows;
+		int i = currentIndex - (j * nbRows);
+
+		if (grid[i][j] == occupied)
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
 
 bool SearchGrid::isGoalClose(const Node& node, double triggerDistance) const
 {

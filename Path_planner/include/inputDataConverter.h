@@ -20,6 +20,10 @@ double rad2deg(double rad) {
 	return (rad * 180 / M_PI);
 }
 
+double feet2met(double feet)
+{
+	return feet * meter2feet;
+}
 
 // longitude : degrees
 // latitude : degrees

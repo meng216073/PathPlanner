@@ -36,6 +36,7 @@ const std::string OBSTACLES_FILE = OUTPUTS_DIR + "/" + "obstacles.csv";
 const std::string MAP_FILE = OUTPUTS_DIR + "/" + "map.csv";
 const std::string WAYPOINTS_GPS_FILE = OUTPUTS_DIR + "/" + "waypoints_gps.csv";
 const std::string OBSTACLES_GPS_FILE = OUTPUTS_DIR + "/" + "obstacles_gps.csv";
+const std::string OBSTACLES_CARTESIAN_FILE = OUTPUTS_DIR + "/" + "obstacles_cartesian.csv";
 };
 
 template <class T>
@@ -91,7 +92,11 @@ public:
   int makeNextPlan(const state& startState, const state& goalState);
 
   // Compute altitude
-  void setWaypointsAltitude(std::deque<state>& path);
+  void setWaypointsAltitude(std::deque<state>& path) const;
+
+  // Reduce number of waypoints
+  void reduceNbWaypoints(std::deque<state>& path) const;
+
 
   // Return the final smoothed path
   const std::deque<state> getPath() const { return finalPath; }
