@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{65390b0e-e2bc-4b9e-bc70-08742e6378d3}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>visualisation.py</StartupFile>
+    <StartupFile>gps_plot.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -24,20 +24,6 @@
     <Compile Include="gps_plot.py" />
     <Compile Include="3Dvisualisation.py" />
     <Compile Include="visualisation.py" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="examples\ex_III_1_a_fig16.txt" />
-    <Content Include="examples\ex_III_1_b_fig18.txt" />
-    <Content Include="examples\ex_III_1_b_fig19.txt" />
-    <Content Include="examples\ex_III_1_c_fig21.txt" />
-    <Content Include="examples\ex_III_1_d_fig23.txt" />
-    <Content Include="examples\ex_III_2_a_fig24.txt" />
-    <Content Include="examples\ex_III_2_b_fig25.txt" />
-    <Content Include="examples\ex_III_2_b_fig26.txt" />
-    <Content Include="examples\ex_IV_3_fig36.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="examples" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
 </Project>

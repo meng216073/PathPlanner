@@ -1,5 +1,6 @@
 # PATH PLANNING VISUALISATION
 
+import mayavi
 from mayavi import mlab
 import csv
 import numpy as np
@@ -13,8 +14,10 @@ def data_for_cylinder_along_z(center_x,center_y,radius,height_z):
     y_grid = radius*np.sin(theta_grid) + center_y
     return x_grid,y_grid,z_grid
 
-fontP = FontProperties()
-fontP.set_size('small')
+
+
+#fontP = FontProperties()
+#fontP.set_size('small')
 
 #fig = plt.figure()
 #ax = fig.add_subplot(111, projection='3d')

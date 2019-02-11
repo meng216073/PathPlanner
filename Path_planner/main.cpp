@@ -409,7 +409,7 @@ void pathPlannerWaypointsNEW()
 		}
 	}*/
 
-	double resolution = 4;
+	double resolution = 1; // 4
 	double safetyDist = 5;
 
 	// Bearing
@@ -426,9 +426,9 @@ void pathPlannerWaypointsNEW()
 			pathPlanner.setSearchAlgorithm("AStarHybrid");
 			//pathPlanner.setSearchAlgorithmHeuristic(grid::MANHATTAN);
 
-			pathPlanner.getSearchAlgorithm().setVelocity(100);
-			pathPlanner.getSearchAlgorithm().setAngularVelocity(25);
-			pathPlanner.getSearchAlgorithm().setDubinsTurnRadius(1.0);
+			pathPlanner.getSearchAlgorithm().setVelocity(1); // 100
+			pathPlanner.getSearchAlgorithm().setAngularVelocity(0.25); // 25
+			pathPlanner.getSearchAlgorithm().setDubinsTurnRadius(0.1); // 1
 			//pathPlanner.getSearchAlgorithm().doNotUseDubins();
 
 			if (pathPlanner.makePlan() == planner::ERR_OK)

@@ -56,13 +56,15 @@ lengthT = len(theta) - 1
 plt.scatter(x[0], y[0], s=100, color='green', marker='o', label='Start')
 plt.scatter(x[ lengthX ], y[ lengthY ], s=100, color='red', marker='o', label='Goal')
 
-x.pop(lengthX)
-x.pop(0)
-y.pop(lengthY)
-y.pop(0)
+#x.pop(lengthX)
+#x.pop(0)
+#y.pop(lengthY)
+#y.pop(0)
 
-for i in range(1, len(x) - 1, 1):
-    plt.scatter(x[i], y[i], s=50, color='blue', marker=(2, 1, theta[i] * 180/math.pi + 90))
+for i in range(0, len(x) - 1, 1):
+    plt.scatter(x[i], y[i], s=75, color='blue', marker=(2, 1, theta[i] * 180/math.pi + 90))
+    plt.plot(x[i:i+2], y[i:i+2], 'g-')
+
 
 lengthX = len(x) - 1
 

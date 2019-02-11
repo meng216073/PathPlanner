@@ -60,7 +60,7 @@ with open('../Path_planner/outputs/obstacles_gps.csv', 'r') as obstaclesF:
         #i = i + 1
 
 top_attraction_lats, top_attraction_lons = zip(*coord)
-gmap.scatter(top_attraction_lats, top_attraction_lons, '#ff0000	', size=4, marker=False)
+gmap.scatter(top_attraction_lats, top_attraction_lons, '#ff0000	', size=2, marker=False)
 
 open('../Path_planner/outputs/obstacles_gps.csv', 'w').close()
 

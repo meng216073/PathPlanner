@@ -445,69 +445,48 @@ void PathPlanner<T>::setWaypointsAltitude(std::deque<state>& path) const
 	}
 }
 
-// MUST BE REVIEWED
 template <class T>
 void PathPlanner<T>::reduceNbWaypoints(std::deque<state>& path) const
 {
-	state startState = searchGrid->getStartState();
-	state goalState = searchGrid->getGoalState();
-
-	double a = (goalState.y - startState.y) / (goalState.x - startState.x);
-	double b = startState.y - a * startState.x;
-	
-	double distanceX = abs(goalState.x - startState.x);
-	double minCoord = std::min(startState.x, goalState.x);
-
-	std::deque<state> line, newPath = path;
-
-	for (int i = 0; i <= distanceX; ++i)
-	{
-		line.push_back({ minCoord + i , a * (minCoord + i) + b, path[0].theta, 0 });
-	}
-
-	bool collision = false;
+	std::deque<state> line, newPath;
+	bool noCollision = true;
 	int nb = 0;
+	state nextState, firstState = path[nb];
+	newPath.push_back(firstState);
 
-	while (!collision)
+	while (nb < path.size() - 1)
 	{
-		collision = searchGrid->checkCollision(line);
-
-		// If there is a collision
-		if (!collision)
+		// If there is not a collision
+		if (noCollision)
 		{
 			nb++;
+			nextState = path[nb];
 
-			newPath.pop_front();
-			newPath.pop_back();
+			double a = (nextState.y - firstState.y) / (nextState.x - firstState.x);
+			double b = firstState.y - a * firstState.x;
+
+			double distanceX = abs(nextState.x - firstState.x);
+			double minCoord = std::min(firstState.x, nextState.x);
+
+			for (int i = 0; i <= distanceX; i++)
+			{
+				line.push_back({ minCoord + i , a * (minCoord + i) + b, nextState.theta, 0 });
+			}
+
+			noCollision = searchGrid->checkCollision(line);
 
 			line.clear();
-
-			double a = (newPath.front().y - newPath.back().y) / (newPath.front().x - newPath.back().x);
-			double b = newPath.back().y - a * newPath.back().x;
-
-			double distanceX = abs(newPath.front().x - newPath.back().x);
-			double minCoord = std::min(newPath.back().x, newPath.front().x);
-
-			//cout << distanceX << endl;
-			//cout << nb << endl;
-
-			cout << newPath.front().x << "  " << newPath.back().x << endl;
-
-			for (int i = 0; i <= distanceX; ++i)
-			{
-				line.push_back({ minCoord + i , a * (minCoord + i) + b, newPath[0].theta, 0 });
-			}
 		}
-		else // No collision
+		else // Collision
 		{
-			/*for (int i = nb; i < path.size(); ++i)
-			{
-				path.erase(path.begin() + i);
-				path.erase(path.begin() + path.size() - 1 - i);
-			}*/
+			newPath.push_back(path[nb - 1]);
+			firstState = path[nb];
+
+			noCollision = true;
 		}
 	}
 
+	path = newPath;
 }
 
 template <class T>
