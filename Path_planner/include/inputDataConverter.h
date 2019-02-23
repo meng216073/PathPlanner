@@ -108,8 +108,6 @@ void computeAngle2Points(state& pt1, state& pt2)
 
 	pt1.theta = theta;
 	pt2.theta = theta;
-
-	std::cout << theta << std::endl;
 }
 
 // GenerateCirlcePolygon - Creates Circle from 360 line Segments

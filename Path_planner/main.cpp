@@ -447,13 +447,22 @@ void pathPlannerWaypointsNEW()
 				}
 
 				deque<state> path = pathPlanner.getPath();
+
+				// Waypoints gps file
 				ofstream waypointsGpsFile(WAYPOINTS_GPS_FILE, std::ios_base::app);
 
 				for (int i = 0; i < path.size(); ++i)
 				{
 					coordinates coord = toCoordinates(path[i], center, limitsX, limitsY, Xmax, Ymax);
-					waypointsGpsFile << coord.latitude << "," << coord.longitude << endl;
+					waypointsGpsFile << coord.latitude << "," << coord.longitude << "," << coord.altitude * meter2feet << endl;
 				}
+				
+				if(i == startStates.size() - 1)
+				{
+					coordinates coord = toCoordinates(goalStates[i], center, limitsX, limitsY, Xmax, Ymax);
+					waypointsGpsFile << coord.latitude << "," << coord.longitude << "," << coord.altitude * meter2feet << endl;
+				}
+				
 			}
 		}
 		catch (string e)

@@ -1,6 +1,6 @@
 # PATH PLANNING VISUALISATION
 
-import mayavi
+#import mayavi
 from mayavi import mlab
 import csv
 import numpy as np
@@ -60,8 +60,13 @@ with open('../Path_planner/outputs/waypoints.csv', 'r') as waypointsF:
 del goals[0]
 
 ##
-for g in goals:
-    points3d(float(g[0]), float(g[1]), float(g[3]), s=100)
+#for g in goals:
+#    mlab.plot3d(float(g[0]), float(g[1]), float(g[3]), 100)
+
+print(goals)
+mlab.points3d(float(goals[0][0]), float(goals[0][1]), float(goals[0][2]))
+
+
 
     #ax.scatter(float(g[0]), float(g[1]), float(g[3]), s=100, color='black', marker='o')
 
@@ -71,8 +76,8 @@ lengthT = len(theta) - 1
 lengthZ = len(z) - 1
 
 ##
-ax.scatter(x[0], y[0], z[0], s=100, color='green', marker='o', label='Start')
-ax.scatter(x[ lengthX ], y[ lengthY ], z[ lengthZ ], s=100, color='red', marker='o', label='Goal')
+#ax.scatter(x[0], y[0], z[0], s=100, color='green', marker='o', label='Start')
+#ax.scatter(x[ lengthX ], y[ lengthY ], z[ lengthZ ], s=100, color='red', marker='o', label='Goal')
 
 x.pop(lengthX)
 x.pop(0)
@@ -82,8 +87,8 @@ y.pop(0)
 #z.pop(0)
 
 ##
-for i in range(1, len(x) - 1, 1):
-    ax.scatter(x[i], y[i], z[i], s=5, color='blue', marker=(2, 1, theta[i] * 180/math.pi + 90))
+#for i in range(1, len(x) - 1, 1):
+#    ax.scatter(x[i], y[i], z[i], s=5, color='blue', marker=(2, 1, theta[i] * 180/math.pi + 90))
 
 lengthX = len(x) - 1
 
@@ -105,14 +110,14 @@ with open('../Path_planner/outputs/map.csv', 'r') as mapF:
         yrange.append(float(row[3]))
 
 ##
-ax.scatter(x[ lengthX ], y[ lengthX ], z[ lengthZ ], s=50, color='blue', marker=(2, 1, theta[i] * 180/math.pi + 90), label='Nb waypoints = %d\nResolution = %.2fm\nSafety distance = %.2fm' %(nbTotalWaypoints, resolution, safetyDist))
-leg = ax.legend(loc='upper right', scatterpoints=1, prop=fontP, bbox_to_anchor=(1.3, 1.005))
-leg.draggable()
+#ax.scatter(x[ lengthX ], y[ lengthX ], z[ lengthZ ], s=50, color='blue', marker=(2, 1, theta[i] * 180/math.pi + 90), label='Nb waypoints = %d\nResolution = %.2fm\nSafety distance = %.2fm' %(nbTotalWaypoints, resolution, safetyDist))
+#leg = ax.legend(loc='upper right', scatterpoints=1, prop=fontP, bbox_to_anchor=(1.3, 1.005))
+#leg.draggable()
 
-ax.set_title('Path planning (Execution time : %.4f sec)' %totalExecTime)
-ax.set_xlim(*xrange)
-ax.set_ylim(*yrange)
-ax.set_aspect(1)
+#ax.set_title('Path planning (Execution time : %.4f sec)' %totalExecTime)
+#ax.set_xlim(*xrange)
+#ax.set_ylim(*yrange)
+#ax.set_aspect(1)
 
 
 # Obstacles
@@ -120,6 +125,7 @@ with open('../Path_planner/outputs/obstacles_cartesian.csv', 'r') as obstaclesF:
     reader = csv.reader(obstaclesF, delimiter=',')
     for row in reader:
         Xc,Yc,Zc = data_for_cylinder_along_z(float(row[0]), float(row[1]), float(row[3]), float(row[2]))
-        ax.plot_surface(Xc, Yc, Zc, color='red', alpha=1)
+        #ax.plot_surface(Xc, Yc, Zc, color='red', alpha=1)
 
-plt.show()
+mlab.outline()
+mlab.show()
