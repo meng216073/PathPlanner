@@ -79,4 +79,4 @@ layout = go.Layout(
 )
 
 fig = go.Figure(data=data, layout=layout)
-py.offline.plot(fig, filename='simple-3d-scatter.html')
+py.offline.plot(fig, filename='path_planner_mission.html')

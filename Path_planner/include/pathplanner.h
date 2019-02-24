@@ -37,6 +37,7 @@ const std::string MAP_FILE = OUTPUTS_DIR + "/" + "map.csv";
 const std::string WAYPOINTS_GPS_FILE = OUTPUTS_DIR + "/" + "waypoints_gps.csv";
 const std::string OBSTACLES_GPS_FILE = OUTPUTS_DIR + "/" + "obstacles_gps.csv";
 const std::string OBSTACLES_CARTESIAN_FILE = OUTPUTS_DIR + "/" + "obstacles_cartesian.csv";
+const std::string OBSTACLES_INITIAL_GPS_FILE = OUTPUTS_DIR + "/" + "obstacles_initial_gps.csv";
 };
 
 template <class T>

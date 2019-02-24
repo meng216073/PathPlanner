@@ -7,10 +7,40 @@ with open('../Path_planner/outputs/waypoints_gps.csv', 'r') as waypointsF:
     for row in reader:
         coord.append([float(row[0]), float(row[1]), float(row[2])])
 
+obst = []
+with open('../Path_planner/outputs/obstacles_initial_gps.csv', 'r') as waypointsF:
+    reader = csv.reader(waypointsF, delimiter=',')
+    for row in reader:
+        obst.append([float(row[0]), float(row[1]), float(row[2])])
+
+# TODO : DISPLAY OBSTACLES (CIRCLES)
 var1 = """{
     "fileType": "Plan",
     "geoFence": {
-        "circles": [
+        "circles": ["""
+
+for o in obst:
+    radius = o[2]
+    latitude = o[0]
+    longitude = o[1]
+
+    var1 += """
+            {
+                "circle": {
+                    "center": [
+                        %f,
+                        %f
+                    ],
+                    "radius": %f
+                },
+                "inclusion": false,
+                "version": 1
+            },""" %(latitude, longitude, radius)
+
+# delete last comma
+var1 = var1[:-1]
+
+var1 += """
         ],
         "polygons": [
         ],

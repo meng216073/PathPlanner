@@ -197,7 +197,7 @@ void pathPlannerTEST()
 
 void pathPlannerWaypointsNEW()
 {
-	vector<coordinates> flyZones = {
+	/*vector<coordinates> flyZones = {
 		{ -76.42816388888889, 38.14626944444444, 0 },{ -76.42868333333334, 38.151624999999996, 0 },{ -76.43146666666667, 38.15188888888889, 0 },{ -76.43536111111112, 38.150594444444444, 0 },{ -76.43234166666667, 38.14756666666667, 0 },
 		{ -76.43294722222223, 38.144666666666666, 0 },{ -76.43476666666668, 38.143255555555555, 0 },{ -76.43263611111112, 38.14046388888889, 0 },{ -76.42601388888889, 38.14071944444444, 0 },{ -76.42120555555556, 38.14376111111111, 0 },
 		{ -76.42321111111112, 38.14734722222222, 0 },{ -76.42665277777779, 38.14613055555556, 0 }
@@ -211,6 +211,18 @@ void pathPlannerWaypointsNEW()
 		{ -76.430622, 38.149156, 100, 400 }, { -76.430576, 38.148348, 100, 400 }, { -76.430576, 38.147342, 100, 400 }, { -76.431984, 38.148638, 100, 400 }, { -76.428997, 38.140578, 300, 750 }, { -76.431974, 38.150264, 100, 600 },
 		{ -76.430952, 38.150481, 100, 400 }, { -76.430606, 38.148071, 100, 400 }, { -76.430789, 38.146779, 200, 400 }, { -76.429984, 38.147159, 100, 400 }, { -76.429351, 38.145961, 100, 400 }, { -76.429662, 38.144856, 100, 400 },
 		{ -76.427763, 38.144746, 200, 400 }, { -76.425660, 38.145615, 300, 400 }, { -76.423042, 38.144664, 200, 400 }, { -76.426522, 38.143163, 200, 400 }, { -76.423797, 38.142969, 200, 400 }
+	};*/
+
+	vector<coordinates> flyZones = {
+		{ -74.432935, 45.405975, 0 },{ -74.432426, 45.405922, 0 },{ -74.432078, 45.406690, 0 },{ -74.432625, 45.406796, 0 }
+	};
+
+	vector<coordinates> waypoints = {
+		{ -74.432526, 45.406019, 70 },{ -74.432443, 45.406306, 270 },{ -74.432288, 45.406678, 470 }
+	};
+
+	vector<coordinatesObst> obstacles = {
+		{ -74.432448, 45.406127, 20, 400 },{ -74.432366, 45.406453, 20, 400 }
 	};
 
 	double Xmax = flyZones[0].longitude, Ymax = flyZones[0].latitude;
@@ -278,8 +290,15 @@ void pathPlannerWaypointsNEW()
 		cout << startStates[i].x << " " << startStates[i].y << " **** " << goalStates[i].x << " " << goalStates[i].y << endl;
 	}
 	
+	// SAVE INITIAL GPS OBSTACLES IN FILE
+	ofstream obstacleInitialGpsFile(OBSTACLES_INITIAL_GPS_FILE, std::ios_base::app);
 
-	// SAVE OBSTACLES IN FILE
+	for (int i = 0; i < obstacles.size(); ++i)
+	{
+		obstacleInitialGpsFile << obstacles[i].latitude << "," << obstacles[i].longitude << "," << obstacles[i].radius * meter2feet << "," << obstacles[i].height << endl;
+	}
+
+	// SAVE CARTESIAN OBSTACLES IN FILE
 	ofstream obstacleCartesianFile(OBSTACLES_CARTESIAN_FILE, std::ios_base::app);
 
 	for (int i = 0; i < obstacles.size(); ++i)
@@ -410,7 +429,7 @@ void pathPlannerWaypointsNEW()
 	}*/
 
 	double resolution = 1; // 4
-	double safetyDist = 5;
+	double safetyDist = 1;
 
 	// Bearing
 	for (int i = 0; i < startStates.size(); ++i)
