@@ -85,8 +85,8 @@ var1 = var1[:-1]
 
 # first waypoint
 altitude = coord[0][2]
-latitude = coord[0][0] + 0.001
-longitude = coord[0][1] + 0.001
+latitude = coord[0][0]
+longitude = coord[0][1] 
 
 var1 += """
         ],

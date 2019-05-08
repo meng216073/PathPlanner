@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{65390b0e-e2bc-4b9e-bc70-08742e6378d3}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>csv2plan.py</StartupFile>
+    <StartupFile>plotpy.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -24,8 +24,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="plotpy.py" />
-    <Compile Include="gps_plot.py" />
-    <Compile Include="3Dvisualisation.py" />
     <Compile Include="visualisation.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

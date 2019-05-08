@@ -67,7 +67,8 @@ for i in range(0, len(x) - 1, 1):
 
 
 lengthX = len(x) - 1
-
+lengthY = len(y) - 1
+lengthT = len(theta) - 1
 
 # Obstacles
 vertices = []
@@ -138,7 +139,7 @@ with open('../Path_planner/outputs/map.csv', 'r') as mapF:
         yrange.append(float(row[2]))
         yrange.append(float(row[3]))
 
-plt.scatter(x[ lengthX ], y[ lengthX ], s=50, color='blue', marker=(2, 1, theta[i] * 180/math.pi + 90), label='Nb waypoints = %d\nResolution = %.2fm\nSafety distance = %.2fm' %(nbTotalWaypoints, resolution, safetyDist))
+plt.scatter(x[ lengthX ], y[ lengthY ], s=50, color='blue', marker=(2, 1, theta[lengthT] * 180/math.pi + 90), label='Nb waypoints = %d\nResolution = %.2fm\nSafety distance = %.2fm' %(nbTotalWaypoints, resolution, safetyDist))
 leg = plt.legend(loc='upper right', scatterpoints=1, prop=fontP, bbox_to_anchor=(1.3, 1.005))
 leg.draggable()
 

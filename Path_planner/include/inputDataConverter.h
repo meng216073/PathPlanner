@@ -8,7 +8,9 @@
 
 #include <cmath>
 #include <iostream>
+
 #include "searchgrid.h"
+
 
 // This function converts decimal degrees to radians
 double deg2rad(double deg) {
@@ -139,4 +141,3 @@ std::vector<coordinates> GenerateCirclePolygon(coordinatesObst obstacle)
 
 	return circlePolygon;
 }
-

@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iostream>
 #include <algorithm>
+#include <iomanip>   
 
 #include "pathplanner.h"
 #include "algorithmfactory.h"
@@ -519,10 +520,12 @@ void PathPlanner<T>::saveOutputs(double execTime)
     return;
   }
 
+  // Map
   mapFile << searchGrid->getSafetyDist() << endl;
   mapFile << searchGrid->getResolution() << endl;
   mapFile << searchGrid->getGridLimitsX().first << "," << searchGrid->getGridLimitsX().second << "," << searchGrid->getGridLimitsY().first << "," << searchGrid->getGridLimitsY().second << endl;
   
+  // Waypoints
   waypointsFile << finalPath.size() << endl;
   waypointsFile << execTime << endl;
 
@@ -535,6 +538,7 @@ void PathPlanner<T>::saveOutputs(double execTime)
 
   waypointsFile << searchGrid->getGoalState().x << "," << searchGrid->getGoalState().y << "," << searchGrid->getGoalState().theta << "," << searchGrid->getGoalState().z << endl;
 
+  // Obstacles
   vector< vector<point> > obstaclesVertices = this->getObstaclesVertices();
   for(int i = 0; i < obstaclesVertices.size(); ++i)
   {
