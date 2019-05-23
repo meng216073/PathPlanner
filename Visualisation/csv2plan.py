@@ -13,11 +13,17 @@ with open('../Path_planner/outputs/obstacles_initial_gps.csv', 'r') as waypoints
     for row in reader:
         obst.append([float(row[0]), float(row[1]), float(row[2])])
 
+flyzone = []
+with open('../Path_planner/outputs/fly_zone_gps.csv', 'r') as waypointsF:
+    reader = csv.reader(waypointsF, delimiter=',')
+    for row in reader:
+        flyzone.append([float(row[0]), float(row[1])])
+
 # TODO : DISPLAY OBSTACLES (CIRCLES)
 var1 = """{
     "fileType": "Plan",
     "geoFence": {
-        "circles": ["""
+        "circles": [ """
 
 for o in obst:
     radius = o[2]
@@ -43,6 +49,29 @@ var1 = var1[:-1]
 var1 += """
         ],
         "polygons": [
+            {
+                "inclusion": true,
+                "polygon": ["""
+
+for f in flyzone:
+    latitude = f[0]
+    longitude = f[1]
+
+    var1 += """
+                    [
+                         %f,
+                         %f
+                    ],""" %(latitude, longitude)
+
+# delete last comma
+var1 = var1[:-1]
+
+var1 += """
+        ],
+                "version": 1
+            }"""
+
+var1 += """
         ],
         "version": 2
     },
@@ -52,7 +81,6 @@ var1 += """
         "firmwareType": 12,
         "hoverSpeed": 5,
         "items": ["""
-
 
 for c in coord:
     altitude = c[2]

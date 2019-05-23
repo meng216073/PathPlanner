@@ -414,6 +414,48 @@ void SearchGrid::extendObstacle(vector<point>& vertice, double extentionDist)
   extendCorner(c, d, e, f, startX, startY, vertice[i], extentionDist); 
 }
 
+void SearchGrid::loadFlyZone(const vector<point>& flyZonePolygon, const vector<point>& flyZoneRectangle)
+{
+	cout << endl << "Loading fly zone.." << endl;
+
+	int indx, i, j;
+
+	if (listObstacles.size() == 0)
+	{
+		cout << "Load obstacles first !" << endl;
+		return;
+	}
+
+	vector<point> outBoundaries;
+
+	for (int k = 0; k < flyZonePolygon.size(); ++k)
+	{
+		for (int m = 0; m < gridCoordinates.size(); ++m)
+		{
+			if (pointInPolygon(flyZoneRectangle, gridCoordinates[m]) && !pointInPolygon(flyZonePolygon, gridCoordinates[m]))
+			{
+				indx = convertPoint2Indx(gridCoordinates[m]);
+				if (indx != ERR_INDX)
+				{
+					j = indx / nbRows;
+					i = indx - (j * nbRows);
+
+					if (grid[i][j] != occupied)
+					{
+						grid[i][j] = occupied;
+
+						//outBoundaries.push_back(gridCoordinates[m]);
+					}
+				}
+			}
+		}
+	}
+
+	//listObstacles.push_back(outBoundaries);
+
+	cout << "Fly zone successfully loaded" << endl << endl;
+}
+
 
 void SearchGrid::loadObstacles(const vector<obstacle>& obstaclesArray)
 {
@@ -529,14 +571,14 @@ void SearchGrid::loadObstacles(std::vector< std::vector<point> > newListObstacle
 
     if(!addObstacles)
     {
-      cout << "Obstacle " << k+1 << " {" ;
+      /*cout << "Obstacle " << k+1 << " {" ;
 
       for(int j = 0; j < newListObstacles[k].size(); ++j)
       {
         cout << " {" << newListObstacles[k][j].x << ", " << newListObstacles[k][j].y << "}"; 
       }
       
-      cout << "} already in the map => not added" << endl;
+      cout << "} already in the map => not added" << endl;*/
     }
   }
 

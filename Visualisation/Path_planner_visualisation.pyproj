@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{65390b0e-e2bc-4b9e-bc70-08742e6378d3}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>plotpy.py</StartupFile>
+    <StartupFile>csv2plan.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>

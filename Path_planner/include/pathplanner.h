@@ -38,6 +38,7 @@ const std::string WAYPOINTS_GPS_FILE = OUTPUTS_DIR + "/" + "waypoints_gps.csv";
 const std::string OBSTACLES_GPS_FILE = OUTPUTS_DIR + "/" + "obstacles_gps.csv";
 const std::string OBSTACLES_CARTESIAN_FILE = OUTPUTS_DIR + "/" + "obstacles_cartesian.csv";
 const std::string OBSTACLES_INITIAL_GPS_FILE = OUTPUTS_DIR + "/" + "obstacles_initial_gps.csv";
+const std::string FLY_ZONE_GPS_FILE = OUTPUTS_DIR + "/" + "fly_zone_gps.csv";
 };
 
 template <class T>
@@ -51,6 +52,9 @@ private:
 
   // Final smoothed path
   std::deque<state> finalPath;
+
+  // Map loading execution time
+  double mapLoadingExecTime;
 
   // Check input data (rectangles)
   int checkInputs(state& IstartState, state& IgoalState, std::pair<double,double> gridLimitsX, std::pair<double,double> gridLimitsY, double resolution, double safetyDist) const;
@@ -72,6 +76,9 @@ public:
 
   // Load obstacles
   void loadObstacles(const std::vector< std::vector<point> >& obstaclesArray) { searchGrid->loadObstacles(obstaclesArray); }
+
+  // Load fly zone
+  void loadFlyZone(const std::vector<point>& flyZonePolygon, const std::vector<point>& flyZoneRectangle) { searchGrid->loadFlyZone(flyZonePolygon, flyZoneRectangle); }
 
   // Getters
   std::vector< std::vector<point> > getObstaclesVertices() const { return searchGrid->getListVertices(); }

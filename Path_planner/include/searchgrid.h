@@ -129,8 +129,14 @@ public:
   // Setters
   void setSafetyDist(double dist) { safetyDist = dist; }
   void setGrid(cell** newGrid) { grid = newGrid; }
-  void setStartNode(const state& start) { startNode->setX(start.x); startNode->setY(start.y); startNode->setTheta(start.theta); };
-  void setGoalNode(const state& goal) { goalNode->setX(goal.x); goalNode->setY(goal.y); goalNode->setTheta(goal.theta); };
+  void setStartNode(const state& start) {
+	  delete startNode;
+	  startNode = new Node(start.x, start.y, start.theta, start.z);
+  }
+  void setGoalNode(const state& goal) {
+	  delete goalNode;
+	  goalNode = new Node(goal.x, goal.y, goal.theta, goal.z);
+  }
 
   // Check if a node is far enough from an obstacle
   bool nodeFarFromObstacle(const Node& node) const;
@@ -147,6 +153,9 @@ public:
 
   // Fill in the grid
   int createWorkspace();
+
+  // Construct the fly zone
+  void loadFlyZone(const std::vector<point>& flyZonePolygon, const std::vector<point>& flyZoneRectangle);
 
   // Fill in the grid with the obstacles (rectangles)
   void loadObstacles(const std::vector<obstacle>& obstaclesArray);

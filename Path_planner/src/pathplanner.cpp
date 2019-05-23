@@ -27,9 +27,6 @@ template <class T>
 PathPlanner<T>::PathPlanner(state& IstartState, state& IgoalState, vector<obstacle>& IobstaclesArray,
                             double gridLengthX, double gridLengthY, double resolution, double safetyDist)
 {
-  
-  // Execution time
-  t1 = high_resolution_clock::now();
 
   pair<double,double> gridLimitsX(-gridLengthX / 2, gridLengthX / 2);
   pair<double,double> gridLimitsY(-gridLengthY / 2, gridLengthY / 2);
@@ -68,57 +65,6 @@ PathPlanner<T>::PathPlanner(state& IstartState, state& IgoalState, vector<obstac
   searchAlgorithm = nullptr;
 }
 
-template <class T>
-int PathPlanner<T>::checkInputs(state& IstartState, state& IgoalState, std::pair<double,double> gridLimitsX, std::pair<double,double> gridLimitsY, double resolution, double safetyDist) const
-{
-  if(IstartState.x == IgoalState.x && IstartState.y == IgoalState.y)
-  {
-    cout << "Start position = Goal position" << endl;
-    return ERR_POS_EQUAL;
-  }
-
-  if(gridLimitsX.first >= 0)
-  {
-    cout << "Interval X <= 0" << endl;
-    return ERR_LIMITS_X;
-  }
-
-  if(gridLimitsY.first >= 0)
-  {
-    cout << "Interval Y <= 0" << endl;
-    return ERR_LIMITS_Y;
-  }
-
-  if(IstartState.x < gridLimitsX.first || IstartState.x > gridLimitsX.second || IstartState.y < gridLimitsY.first || IstartState.y > gridLimitsY.second)
-  {
-    cout << "Start position outside the map" << endl;
-    return ERR_START_POS;
-  }
-
-  if(IgoalState.x < gridLimitsY.first || IgoalState.x > gridLimitsY.second || IgoalState.y < gridLimitsY.first || IgoalState.y > gridLimitsY.second)
-  {
-    cout << "Goal position outside the map" << endl;
-    return ERR_GOAL_POS;
-  }
-
-  if(resolution <= 0)
-  {
-    cout << "Resolution <= 0" << endl;
-    return ERR_RESOLUTION;
-  }
-
-  if(IstartState.theta < 0 || IstartState.theta > 2*M_PI)
-  {
-    IstartState.theta = foldOverTwoPi(IstartState.theta);
-  }
-
-  if(IgoalState.theta < 0 || IgoalState.theta > 2*M_PI)
-  {
-    IgoalState.theta = foldOverTwoPi(IgoalState.theta);
-  }
-
-  return ERR_OK;
-}
 
 template <class T>
 int PathPlanner<T>::checkObstacles(std::vector<obstacle>& IobstaclesArray, std::pair<double,double> gridLimitsX, std::pair<double,double> gridLimitsY) const
@@ -217,6 +163,61 @@ PathPlanner<T>::PathPlanner(state& IstartState, state& IgoalState, std::vector< 
   }
 
   searchAlgorithm = nullptr;
+
+  high_resolution_clock::time_point t2 = high_resolution_clock::now();
+  mapLoadingExecTime = duration_cast<microseconds>(t2 - t1).count() / 1.0e6;
+}
+
+template <class T>
+int PathPlanner<T>::checkInputs(state& IstartState, state& IgoalState, std::pair<double, double> gridLimitsX, std::pair<double, double> gridLimitsY, double resolution, double safetyDist) const
+{
+	if (IstartState.x == IgoalState.x && IstartState.y == IgoalState.y)
+	{
+		cout << "Start position = Goal position" << endl;
+		return ERR_POS_EQUAL;
+	}
+
+	if (gridLimitsX.first >= 0)
+	{
+		cout << "Interval X <= 0" << endl;
+		return ERR_LIMITS_X;
+	}
+
+	if (gridLimitsY.first >= 0)
+	{
+		cout << "Interval Y <= 0" << endl;
+		return ERR_LIMITS_Y;
+	}
+
+	if (IstartState.x < gridLimitsX.first || IstartState.x > gridLimitsX.second || IstartState.y < gridLimitsY.first || IstartState.y > gridLimitsY.second)
+	{
+		cout << "Start position outside the map" << endl;
+		return ERR_START_POS;
+	}
+
+	if (IgoalState.x < gridLimitsY.first || IgoalState.x > gridLimitsY.second || IgoalState.y < gridLimitsY.first || IgoalState.y > gridLimitsY.second)
+	{
+		cout << "Goal position outside the map" << endl;
+		return ERR_GOAL_POS;
+	}
+
+	if (resolution <= 0)
+	{
+		cout << "Resolution <= 0" << endl;
+		return ERR_RESOLUTION;
+	}
+
+	if (IstartState.theta < 0 || IstartState.theta > 2 * M_PI)
+	{
+		IstartState.theta = foldOverTwoPi(IstartState.theta);
+	}
+
+	if (IgoalState.theta < 0 || IgoalState.theta > 2 * M_PI)
+	{
+		IgoalState.theta = foldOverTwoPi(IgoalState.theta);
+	}
+
+	return ERR_OK;
 }
 
 template <class T>
@@ -331,55 +332,57 @@ int PathPlanner<T>::setDist2Obstacles(double dist)
 template <class T>
 int PathPlanner<T>::makePlan()
 {
-  if(searchAlgorithm == nullptr)
-  {
-    cout << "SearchAlgorithm not initialized (makePlan)" << endl;
-    return ERR_ALGO;
-  }
+	// Execution time
+	t1 = high_resolution_clock::now();
 
-  const Node* nodePath = searchAlgorithm->launchSearch(*searchGrid);
+	if(searchAlgorithm == nullptr)
+	{
+	cout << "SearchAlgorithm not initialized (makePlan)" << endl;
+	return ERR_ALGO;
+	}
 
-  /*cout << nodePath->pos() << endl;
-  int i = 0;
-  while (nodePath != nullptr)
-  {
-	  cout << nodePath->x() << " " << i << endl;
-	  ++i;
-	  nodePath = nodePath->pred();
-  }*/
 
-  if(!nodePath)
-  {
-    cout << endl << endl << "*** PATH NOT FOUND ***" << endl;
-    return ERR_OK; // Not a program error (normal behavior)
-  }
-  else
-  {
-    cout << endl << endl << "*** PATH FOUND ***" << endl;
-  }
+	const Node* nodePath = searchAlgorithm->launchSearch(*searchGrid);
 
-  // Smoother
-  finalPath = smoother->getPathFromGoalNode(nodePath);
-  finalPath = smoother->smooth(finalPath);
+	/*cout << nodePath->pos() << endl;
+	int i = 0;
+	while (nodePath != nullptr)
+	{
+		cout << nodePath->x() << " " << i << endl;
+		++i;
+		nodePath = nodePath->pred();
+	}*/
 
-  // Reduce nb waypoints
-  reduceNbWaypoints(finalPath);
+	if(!nodePath)
+	{
+		cout << endl << endl << "*** PATH NOT FOUND ***" << endl;
+		return ERR_OK; // Not a program error (normal behavior)
+	}
+	else
+	{
+		cout << endl << endl << "*** PATH FOUND ***" << endl;
+	}
 
-  // Set altitude
-  setWaypointsAltitude(finalPath);
+	// Smoother
+	finalPath = smoother->getPathFromGoalNode(nodePath);
+	finalPath = smoother->smooth(finalPath);
 
-  // Delete path
-  deletePath(nodePath);
+	// Reduce nb waypoints
+	reduceNbWaypoints(finalPath);
 
-  high_resolution_clock::time_point t2 = high_resolution_clock::now();
-  auto execTime = duration_cast<microseconds>( t2 - t1 ).count() / 1.0e6;
+	// Set altitude
+	setWaypointsAltitude(finalPath);
 
-  cout << endl << "Execution time : " << execTime << "s" << endl;
+	// Delete path
+	deletePath(nodePath);
 
-  // Save results
-  saveOutputs(execTime);
+	high_resolution_clock::time_point t2 = high_resolution_clock::now();
+	auto execTime = duration_cast<microseconds>(t2 - t1).count() / 1.0e6;
 
-  return ERR_OK;
+	// Save results
+	saveOutputs(execTime);
+
+	return ERR_OK;
 }
 
 template <class T>
@@ -527,7 +530,8 @@ void PathPlanner<T>::saveOutputs(double execTime)
   
   // Waypoints
   waypointsFile << finalPath.size() << endl;
-  waypointsFile << execTime << endl;
+  waypointsFile << execTime + mapLoadingExecTime << endl;
+  mapLoadingExecTime = 0;
 
   waypointsFile << searchGrid->getStartState().x << "," << searchGrid->getStartState().y << "," << searchGrid->getStartState().theta << "," << searchGrid->getStartState().z << endl;
 

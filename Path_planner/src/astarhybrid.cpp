@@ -4,10 +4,12 @@
 #include <queue>
 #include <map>
 #include <iostream>
+#include <chrono>
 
 #include "astarhybrid.h"
 
 using namespace std;
+using namespace std::chrono;
 using namespace astarHybrid;
 
 AStarHybrid* AStarHybrid::create()
@@ -38,6 +40,10 @@ void AStarHybrid::setDubinsTurnRadius()
 const Node* AStarHybrid::launchSearch(const SearchGrid& searchGrid)
 {
   cout << endl << endl << "A* Hybrid Algorithm starting.." << endl << endl;
+
+  // Execution time
+  auto start = high_resolution_clock::now();
+
 
   Node* startNode = const_cast<Node*>( searchGrid.getStartNode() );
   int startNodeIndx = searchGrid.convertNode2Indx(*startNode);
@@ -84,6 +90,13 @@ const Node* AStarHybrid::launchSearch(const SearchGrid& searchGrid)
 
   while(!openSet.empty())
   {
+	// Execution time
+	high_resolution_clock::time_point current = high_resolution_clock::now();
+	double elapsedTime = duration_cast<microseconds>(current - start).count() / 1.0e6;
+
+	if (elapsedTime > 20)
+		break;
+
     // Find the node having minimum total cost value from priority queue
     currentNode = openSet.top();
     currentNodeIndx = searchGrid.convertNode2Indx(*currentNode);
@@ -214,7 +227,10 @@ const Node* AStarHybrid::launchSearch(const SearchGrid& searchGrid)
   }
 
   setPathResult(hybridAlgo::NOT_FOUND);
-  return nullptr;
+
+  //return nullptr;
+  //return goalNode;
+  return startNode;
 }
 
 

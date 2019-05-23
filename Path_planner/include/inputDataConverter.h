@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #define _USE_MATH_DEFINES
 
@@ -112,6 +112,7 @@ void computeAngle2Points(state& pt1, state& pt2)
 	pt2.theta = theta;
 }
 
+
 // GenerateCirlcePolygon - Creates Circle from 360 line Segments
 //*@param center coordinates in degrees
 //* @param radius in feet
@@ -140,4 +141,41 @@ std::vector<coordinates> GenerateCirclePolygon(coordinatesObst obstacle)
 	}
 
 	return circlePolygon;
+}
+
+coordinates GenerateCirclePoint(coordinatesObst obstacle, coordinates point, double bearing, double safetyDist, double distance)
+{
+	//latitude in radians
+	double lat = deg2rad(obstacle.latitude);
+
+	//longitude in radians
+	double lon = deg2rad(obstacle.longitude);
+
+	//angular distance covered on earth's surface
+	double d = ((meter2feet / 1000) * (obstacle.radius + feet2meter*(safetyDist+1))) / R_earth; // safety distance + 1
+	//double d = ((meter2feet / 1000) * (distance + feet2meter * (safetyDist + 1))) / R_earth; 
+
+	coordinates newPoint;
+
+	newPoint.latitude = asin(sin(lat) * cos(d) + cos(lat) * sin(d) * cos(bearing));
+	newPoint.longitude = rad2deg(lon + atan2(sin(bearing) * sin(d) * cos(lat), cos(d) - sin(lat) * sin(newPoint.latitude)));
+	newPoint.latitude = rad2deg(newPoint.latitude);
+	newPoint.altitude = point.altitude;
+
+	return newPoint;
+}
+
+double getBearing2Points(coordinates pointA, coordinates pointB)
+{
+	double latB = deg2rad(pointB.latitude);
+	double lonB = deg2rad(pointB.longitude);
+	double latA = deg2rad(pointA.latitude);
+	double lonA = deg2rad(pointA.longitude);
+
+	double X = cos(latB) * sin(lonB - lonA);
+	double Y = cos(latA) * sin(latB) - sin(latA) * cos(latB) * cos(lonB - lonA);
+	
+	std::cout << atan2(X, Y) << std::endl;
+
+	return atan2(X,Y);
 }

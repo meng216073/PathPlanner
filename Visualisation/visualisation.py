@@ -96,6 +96,8 @@ with open('../Path_planner/outputs/obstacles.csv', 'r') as obstaclesF:
         j = j + 1
 
 
+
+
 ax = plt.subplot()
 p = PatchCollection(patchesObst)
 ax.add_collection(p)
