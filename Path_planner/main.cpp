@@ -89,18 +89,18 @@ tuple<vector<coordinates>, vector<coordinatesObst>> getRandomConfig(double latMi
 void pathPlannerWaypoints()
 {
 	// CONFIG COMPE
-	vector<coordinates> flyZones = {
+	/*vector<coordinates> flyZones = {
 		{ -76.42816388888889, 38.14626944444444, 0 },{ -76.42868333333334, 38.151624999999996, 0 },{ -76.43146666666667, 38.15188888888889, 0 },{ -76.43536111111112, 38.150594444444444, 0 },{ -76.43234166666667, 38.14756666666667, 0 },
 		{ -76.43294722222223, 38.144666666666666, 0 },{ -76.43476666666668, 38.143255555555555, 0 },{ -76.43263611111112, 38.14046388888889, 0 },{ -76.42601388888889, 38.14071944444444, 0 },{ -76.42120555555556, 38.14376111111111, 0 },
 		{ -76.42321111111112, 38.14734722222222, 0 },{ -76.42665277777779, 38.14613055555556, 0 }
-	};
+	};*/
 
 	/*vector<coordinates> waypoints = {
 		{ -76.4303750, 38.1508847, 100 },{ -76.4328839, 38.1496530, 200 },{ -76.4257010, 38.1423795, 400 },{ -76.4226473, 38.1438963, 350 },{ -76.4240670, 38.1457923, 200 },{ -76.4288839, 38.1440126, 100 }
 	};*/
 	
 	 
-	vector<coordinates> waypoints = {
+	/*vector<coordinates> waypoints = {
 		{ -76.429103, 38.150842, 600 }, { -76.424003, 38.146664, 600 }, { -76.428920, 38.151226, 600 }, { -76.423042, 38.144664, 600 }, { -76.427763, 38.144746, 450 }, { -76.430622, 38.149156, 450 }, { -76.4303750, 38.1508847, 100 }, { -76.4328839, 38.1496530, 200 },{ -76.4257010, 38.1423795, 400 },{ -76.4226473, 38.1438963, 350 },{ -76.4240670, 38.1457923, 200 },{ -76.4288839, 38.1440126, 100 }
 	};
 	
@@ -108,20 +108,21 @@ void pathPlannerWaypoints()
 		{ -76.430622, 38.149156, 100, 400 }, { -76.430576, 38.148348, 100, 400 }, { -76.430576, 38.147342, 100, 400 }, { -76.431984, 38.148638, 100, 400 }, { -76.428997, 38.140578, 300, 750 },{ -76.431974, 38.150264, 100, 600 },
 		{ -76.430952, 38.150481, 100, 400 }, { -76.430606, 38.148071, 100, 400 }, { -76.430789, 38.146779, 200, 400 }, { -76.429984, 38.147159, 100, 400 }, { -76.429351, 38.145961, 100, 400 },{ -76.429662, 38.144856, 100, 400 },
 		{ -76.427763, 38.144746, 200, 400 }, { -76.425660, 38.145615, 300, 400 }, { -76.423042, 38.144664, 200, 400 }, { -76.426522, 38.143163, 200, 400 }, { -76.423797, 38.142969, 200, 400 }
-	};
+	};*/
 
 
 
 	// CONFIG CHALET ALL FLY ZONE
-	/*vector<coordinates> flyZones = {
+	vector<coordinates> flyZones = {
 		{ -74.432358, 45.405951 , 0 }, { -74.433669, 45.406155, 0 }, { -74.432425, 45.409364, 0 }, { -74.431047, 45.409148, 0 }
 	};
 
 	vector<coordinates> waypoints = {
-		{ -74.43269867107395, 45.40608359235939, 100 },
-		{ -74.43280910072043, 45.40753305064806, 150 },
-		{ -74.4327, 45.4071, 450 },
-		{ -74.43223294607526, 45.407381364890156, 200 },
+		{ -74.432698, 45.406083, 100 },
+		{ -74.432501, 45.408832, 150 },
+		{ -74.432738, 45.408272, 250 }
+
+		/*{ -74.43223294607526, 45.407381364890156, 200 },
 		{ -74.43158477210385, 45.40815327259285, 250 },
 		{ -74.431690, 45.407910, 250 },
 		{ -74.43254502982818, 45.40835214666499, 300 },
@@ -132,8 +133,8 @@ void pathPlannerWaypoints()
 		{ -74.43271787620766, 45.408089228254845, 300 },
 		{ -74.43209805262615, 45.40700695034278, 200 },
 		{ -74.432102, 45.408286, 450 },
-		{ -74.43252859911847, 45.406080760915515, 100 }
-	};*/
+		{ -74.43252859911847, 45.406080760915515, 100 }*/
+	};
 
 	/*vector<coordinates> waypoints = {
 		{ -74.43269867107395, 45.40608359235939, 100 },
@@ -172,6 +173,35 @@ void pathPlannerWaypoints()
 		{ -74.431690, 45.407910, 60, 200 }
 	};*/
 
+	vector<coordinatesObst> obstacles = {
+		{ -74.432349, 45.409207, 40, 200 },
+		{ -74.431940, 45.409132, 40, 200 },
+		{ -74.431449, 45.409064, 40, 200 },
+		{ -74.432197, 45.408874, 40, 200 },
+		{ -74.431780, 45.408702, 40, 200 },
+		{ -74.432545, 45.408610, 40, 200 },
+		{ -74.432159, 45.408502, 40, 200 },
+		{ -74.431730, 45.408469, 40, 200 },
+		{ -74.432454, 45.408436, 40, 200 },
+		{ -74.432131, 45.408422, 40, 200 },
+		{ -74.431851, 45.408268, 40, 200 },
+		{ -74.432770, 45.408151, 40, 200 },
+		{ -74.432331, 45.408057, 40, 200 },
+		{ -74.431906, 45.407983, 40, 200 },
+		{ -74.432774, 45.407864, 40, 200 },
+		{ -74.432118, 45.407746, 40, 200 },
+		{ -74.432900, 45.407651, 40, 200 },
+		{ -74.432465, 45.407569, 40, 200 },
+		{ -74.432121, 45.407364, 40, 200 },
+		{ -74.432990, 45.407314, 40, 200 },
+		{ -74.432377, 45.407253, 40, 200 },
+		{ -74.432916, 45.407123, 40, 200 },
+		{ -74.432400, 45.407033, 40, 200 },
+		{ -74.432903, 45.406731, 40, 200 },
+		{ -74.432621, 45.406414, 40, 200 },
+		{ -74.433327, 45.406440, 40, 200 },
+		{ -74.433009, 45.406236, 40, 200 }
+	};
 
 	// CONFIG CHALET HALF FLY ZONE
 	/*vector<coordinates> flyZones = {
@@ -232,8 +262,8 @@ void pathPlannerWaypoints()
 	tie(waypoints, obstacles) = getRandomConfig(Ymin, Xmin, Ymax, Xmax, altMin, altMax, radMin, radMax);*/
 	
 	// Resolution & safety distance
-	double resolution = 1; // 4
-	double safetyDist = 5; // 5
+	double resolution = 1; // m
+	double safetyDist = 3; // m
 
 	// If a waypoint is above an obstacle
 	double d = 0, newLat = 0, newLon = 0;
@@ -244,27 +274,34 @@ void pathPlannerWaypoints()
 		// Check if a waypoint is inside an obstacle
 		for (int j = 0; j < obstacles.size(); ++j)
 		{
-			d = distanceEarth(waypoints[i].latitude, waypoints[i].longitude, obstacles[j].latitude, obstacles[j].longitude);
-
-			// Waypoint inside
-			if (d*feet2meter < obstacles[j].radius)
+			if (obstacles[j].height < waypoints[i].altitude)
 			{
-				cout << "d : " << obstacles[j].radius - d * feet2meter << endl;
-				cout << "r : " << obstacles[j].radius << endl;
-				
-				obstCenter = { obstacles[j].longitude, obstacles[j].latitude, obstacles[j].height };
-				newPoint = GenerateCirclePoint(obstacles[j], waypoints[i], getBearing2Points(waypoints[i], waypoints[i + 1]), safetyDist, 0);
+				d = distanceEarth(waypoints[i].latitude, waypoints[i].longitude, obstacles[j].latitude, obstacles[j].longitude);
 
-				//newPoint = GenerateCirclePoint(obstacles[j], waypoints[i], getBearing2Points(waypoints[i], waypoints[i+1]), safetyDist, obstacles[j].radius - d*feet2meter);
-				waypoints.insert(waypoints.begin() + i + 1, newPoint);
-				i++;
-
-				if (i != 1 && i != waypoints.size() - 1)
+				// Waypoint inside
+				if (d*feet2meter < (obstacles[j].radius + safetyDist*feet2meter))
 				{
-					//newPoint = GenerateCirclePoint(obstacles[j], waypoints[i - 1], getBearing2Points(waypoints[i - 1], waypoints[i - 2]), safetyDist, obstacles[j].radius - d * feet2meter);
-					newPoint = GenerateCirclePoint(obstacles[j], waypoints[i - 1], getBearing2Points(waypoints[i - 1], waypoints[i - 2]), safetyDist, 0);
-					waypoints.insert(waypoints.begin() + i - 1, newPoint);
-					i++;
+
+					if (i != waypoints.size() - 1)
+					{
+						cout << "d : " << obstacles[j].radius - d * feet2meter << endl;
+						cout << "r : " << obstacles[j].radius << endl;
+
+						obstCenter = { obstacles[j].longitude, obstacles[j].latitude, obstacles[j].height };
+						newPoint = GenerateCirclePoint(obstacles[j], waypoints[i], getBearing2Points(waypoints[i], waypoints[i + 1]), safetyDist, 0);
+
+						//newPoint = GenerateCirclePoint(obstacles[j], waypoints[i], getBearing2Points(waypoints[i], waypoints[i+1]), safetyDist, obstacles[j].radius - d*feet2meter);
+						waypoints.insert(waypoints.begin() + i + 1, newPoint);
+						i++;
+
+						if (i != 1)
+						{
+							//newPoint = GenerateCirclePoint(obstacles[j], waypoints[i - 1], getBearing2Points(waypoints[i - 1], waypoints[i - 2]), safetyDist, obstacles[j].radius - d * feet2meter);
+							newPoint = GenerateCirclePoint(obstacles[j], waypoints[i - 1], getBearing2Points(waypoints[i - 1], waypoints[i - 2]), safetyDist, 0);
+							waypoints.insert(waypoints.begin() + i - 1, newPoint);
+							i++;
+						}
+					}
 				}
 			}
 		}
